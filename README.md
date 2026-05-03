@@ -1,0 +1,2 @@
+Customer Churn Prediction System using Machine Learning to analyze customer behavior and predict churn. Includes EDA, data preprocessing, and models like Logistic Regression and Random Forest. Built with Python, Flask, MySQL, and a web dashboard for real-time predictions.
+<img width="1148" height="1370" alt="Customer Churn Prediction System" src="https://github.com/user-attachments/assets/4a922590-574e-4718-9c48-b93fa41f4ab2" />
