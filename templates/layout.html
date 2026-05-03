@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ title | default('Customer Churn Prediction System') }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="page-header">
+        <a class="logo" href="{{ url_for('home') }}">Customer Churn System</a>
+        <nav class="nav-links">
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('customers') }}">Customers</a>
+          <a href="{{ url_for('predict') }}">Predict</a>
+          <a href="{{ url_for('dashboard') }}">Insights</a>
+          {% if logged_in %}
+            <span class="nav-user">{{ user_role }}: {{ logged_in }}</span>
+            <a href="{{ url_for('logout') }}">Logout</a>
+          {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+          {% endif %}
+        </nav>
+      </header>
+
+      <main class="page-content">
+        {% block content %}{% endblock %}
+      </main>
+
+      <footer class="page-footer">
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <section class="section-card">
+    <div class="grid-two">
+      <div>
+        <h2>Admin & Staff Login</h2>
+        <p>Secure access for managing customers, making churn predictions, and reviewing insights.</p>
+      </div>
+      <a class="button-secondary" href="{{ url_for('home') }}">Back to Home</a>
+    </div>
+  </section>
+
+  <section class="section-card" style="max-width: 580px; margin: 0 auto;">
+    {% if error %}
+      <div class="alert-box" style="background: #fff0f7; border-color:#ff9bca; color:#5c2450;">
+        {{ error }}
+      </div>
+    {% endif %}
+    <form method="post">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="admin or staff" required />
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" placeholder="Enter password" required />
+      </div>
+      <button type="submit" class="button-primary">Login</button>
+    </form>
+    <p style="margin-top: 16px; color: #5e4277;">Use <strong>admin/admin123</strong> or <strong>staff/staff123</strong>.</p>
+  </section>
+{% endblock %}

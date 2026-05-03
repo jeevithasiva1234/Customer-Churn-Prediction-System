@@ -1,0 +1,132 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <section class="section-card">
+    <div class="grid-two">
+      <div>
+        <h2>Insights Overview</h2>
+        <p>Clear metrics and visual charts show churn trends and customer health.</p>
+      </div>
+      <a class="button-secondary" href="{{ url_for('customers') }}">Manage Customers</a>
+    </div>
+  </section>
+
+  <section class="stat-list">
+    <div class="stat-card">
+      <h4>Total Customers</h4>
+      <strong>{{ total_customers }}</strong>
+    </div>
+    <div class="stat-card">
+      <h4>Active Customers</h4>
+      <strong>{{ active_customers }}</strong>
+    </div>
+    <div class="stat-card">
+      <h4>Churned Customers</h4>
+      <strong>{{ churned_customers }}</strong>
+    </div>
+    <div class="stat-card">
+      <h4>Churn Rate</h4>
+      <strong>{{ churn_rate }}%</strong>
+    </div>
+  </section>
+
+  <section class="grid-two">
+    <div class="chart-box">
+      <h3>Churn Count</h3>
+      <canvas id="churnChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Gender vs Churn</h3>
+      <canvas id="genderChart"></canvas>
+    </div>
+  </section>
+
+  <section class="grid-two">
+    <div class="chart-box">
+      <h3>Region Customers</h3>
+      <canvas id="regionChart"></canvas>
+    </div>
+    <div class="chart-box">
+      <h3>Monthly Charges Range</h3>
+      <canvas id="chargesChart"></canvas>
+    </div>
+  </section>
+
+  <section class="chart-box">
+    <h3>Tenure vs Churn Rate</h3>
+    <canvas id="tenureChart"></canvas>
+  </section>
+
+  <script>
+    const churnChart = new Chart(document.getElementById('churnChart'), {
+      type: 'bar',
+      data: {
+        labels: {{ churn_labels|tojson }},
+        datasets: [{
+          label: 'Customers',
+          backgroundColor: ['#b56dff', '#ff6c9f'],
+          data: {{ churn_counts|tojson }},
+          borderRadius: 16,
+          barThickness: 28,
+        }]
+      },
+      options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}}}
+    });
+
+    const genderChart = new Chart(document.getElementById('genderChart'), {
+      type: 'pie',
+      data: {
+        labels: {{ gender_labels|tojson }},
+        datasets: [{
+          data: {{ gender_values|tojson }},
+          backgroundColor: ['#ff94c8', '#9274ff', '#63d2ff']
+        }]
+      },
+      options: {responsive: true, maintainAspectRatio: false}
+    });
+
+    const regionChart = new Chart(document.getElementById('regionChart'), {
+      type: 'bar',
+      data: {
+        labels: {{ region_labels|tojson }},
+        datasets: [{
+          label: 'Customers',
+          backgroundColor: '#c682ff',
+          data: {{ region_values|tojson }},
+          borderRadius: 16,
+        }]
+      },
+      options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}}}
+    });
+
+    const chargesChart = new Chart(document.getElementById('chargesChart'), {
+      type: 'bar',
+      data: {
+        labels: {{ monthly_labels|tojson }},
+        datasets: [{
+          label: 'Customers',
+          backgroundColor: '#ffb3db',
+          data: {{ monthly_counts|tojson }},
+          borderRadius: 16,
+        }]
+      },
+      options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}}}
+    });
+
+    const tenureChart = new Chart(document.getElementById('tenureChart'), {
+      type: 'line',
+      data: {
+        labels: {{ tenure_labels|tojson }},
+        datasets: [{
+          label: 'Churn Rate',
+          data: {{ tenure_churn|tojson }},
+          borderColor: '#7c4dff',
+          backgroundColor: 'rgba(124, 77, 255, 0.18)',
+          fill: true,
+          tension: 0.35,
+          pointRadius: 5,
+        }]
+      },
+      options: {responsive: true, maintainAspectRatio: false, scales: {y: {beginAtZero: true, max: 1}}}
+    });
+  </script>
+{% endblock %}

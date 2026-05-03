@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <section class="section-card">
+    <div class="hero-content">
+      <h1 class="hero-title">Customer Churn Prediction System</h1>
+      <p class="hero-text">A colorful, polished mini project for Foundations of Data Science. Explore customer records, predict churn risk, and view smart insights.</p>
+      <div class="button-row">
+        <a class="button-primary" href="{{ url_for('customers') }}">View Customers</a>
+        <a class="button-secondary" href="{{ url_for('predict') }}">Predict Churn</a>
+        <a class="button-secondary" href="{{ url_for('dashboard') }}">Insights</a>
+      </div>
+    </div>
+  </section>
+  <section class="grid-two">
+    <div class="section-card">
+      <h2>Why this system?</h2>
+      <p>This project stores simplified customer information, trains a logistic regression churn model, and presents easy-to-read metrics. It is designed to be beginner-friendly and visually appealing for your college demo.</p>
+    </div>
+    <div class="section-card">
+      <h2>What you can do</h2>
+      <ul>
+        <li>Browse and manage customer data</li>
+        <li>Create new customer records</li>
+        <li>Check churn prediction with probability</li>
+        <li>Review colorful charts and metrics</li>
+      </ul>
+    </div>
+  </section>
+{% endblock %}

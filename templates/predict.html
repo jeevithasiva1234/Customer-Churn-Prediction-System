@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <section class="section-card">
+    <div class="grid-two">
+      <div>
+        <h2>Predict Customer Churn</h2>
+        <p>Enter customer details below to see whether they are likely to stay or churn.</p>
+      </div>
+      <a class="button-secondary" href="{{ url_for('dashboard') }}">View Insights</a>
+    </div>
+  </section>
+
+  <section class="grid-two">
+    <div class="section-card">
+      <form method="post">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="name" value="{{ form.name }}" placeholder="Customer name" required />
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" name="age" value="{{ form.age }}" min="18" max="80" required />
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <select name="gender">
+            <option {% if form.gender == 'Male' %}selected{% endif %}>Male</option>
+            <option {% if form.gender == 'Female' %}selected{% endif %}>Female</option>
+            <option {% if form.gender == 'Other' %}selected{% endif %}>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Region</label>
+          <select name="region">
+            <option {% if form.region == 'North' %}selected{% endif %}>North</option>
+            <option {% if form.region == 'South' %}selected{% endif %}>South</option>
+            <option {% if form.region == 'East' %}selected{% endif %}>East</option>
+            <option {% if form.region == 'West' %}selected{% endif %}>West</option>
+            <option {% if form.region == 'Central' %}selected{% endif %}>Central</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Tenure Months</label>
+          <input type="number" name="tenure_months" value="{{ form.tenure_months }}" min="1" max="60" required />
+        </div>
+        <div class="form-group">
+          <label>Monthly Charges</label>
+          <input type="number" name="monthly_charges" value="{{ form.monthly_charges }}" step="0.01" min="10" max="200" required />
+        </div>
+        <div class="form-group">
+          <label>Support Tickets</label>
+          <input type="number" name="support_tickets" value="{{ form.support_tickets }}" min="0" max="12" required />
+        </div>
+        <div class="form-group">
+          <label>Active Customer</label>
+          <select name="is_active">
+            <option {% if form.is_active == 'Yes' %}selected{% endif %}>Yes</option>
+            <option {% if form.is_active == 'No' %}selected{% endif %}>No</option>
+          </select>
+        </div>
+        <button type="submit" class="button-primary">Check Prediction</button>
+      </form>
+    </div>
+
+    <div class="section-card">
+      <h3>Prediction Summary</h3>
+      {% if prediction %}
+        <div class="alert-box">
+          <p><strong>Prediction:</strong> <span class="small-tag {% if prediction == 'Stay' %}stay{% else %}churn{% endif %}">{{ prediction }}</span></p>
+          <p><strong>Risk Level:</strong> <span class="small-tag {% if risk == 'Low' %}low{% elif risk == 'Medium' %}medium{% else %}high{% endif %}">{{ risk }}</span></p>
+          <p><strong>Probability:</strong> {{ probability }}%</p>
+          <p>{{ message }}</p>
+        </div>
+      {% else %}
+        <p>Please fill the form and click <strong>Check Prediction</strong> to see results.</p>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

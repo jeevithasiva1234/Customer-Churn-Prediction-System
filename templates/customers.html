@@ -1,0 +1,132 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <section class="section-card">
+    <div class="grid-two">
+      <div>
+        <h2>Customer Records</h2>
+        <p>Search, filter, add, or remove customer entries in the dataset.</p>
+      </div>
+      <div class="button-row" style="justify-content: flex-end; align-items: center;">
+        <a class="button-secondary" href="{{ url_for('home') }}">Back to Home</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-card">
+    <form method="get" class="grid-three" style="align-items: end; gap: 16px;">
+      <div class="form-group">
+        <label>Search by Name</label>
+        <input type="search" name="search" placeholder="Enter customer name" value="{{ search }}" />
+      </div>
+      <div class="form-group">
+        <label>Filter by Gender</label>
+        <select name="gender">
+          <option value="">All</option>
+          {% for gender in genders %}
+            <option value="{{ gender }}" {% if selected_gender == gender %}selected{% endif %}>{{ gender }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Filter by Region</label>
+        <select name="region">
+          <option value="">All</option>
+          {% for region in regions %}
+            <option value="{{ region }}" {% if selected_region == region %}selected{% endif %}>{{ region }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div></div>
+      <button type="submit" class="button-primary" style="width: fit-content;">Apply Filters</button>
+    </form>
+  </section>
+
+  <section class="grid-two">
+    <div class="section-card">
+      <div class="table-wrap">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Age</th>
+              <th>Gender</th>
+              <th>Region</th>
+              <th>Charges</th>
+              <th>Tenure</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for customer in customers %}
+              <tr>
+                <td>{{ customer.customer_id }}</td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.age }}</td>
+                <td>{{ customer.gender }}</td>
+                <td>{{ customer.region }}</td>
+                <td>₹{{ '%.2f' | format(customer.monthly_charges) }}</td>
+                <td>{{ customer.tenure_months }}</td>
+                <td>{{ customer.is_active }}</td>
+                <td class="table-actions"><a href="{{ url_for('delete_customer', customer_id=customer.customer_id) }}">Delete</a></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h3>Add New Customer</h3>
+      <form action="{{ url_for('add_customer') }}" method="post">
+        <div class="form-group">
+          <label>Name</label>
+          <input type="text" name="name" placeholder="Full name" required />
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <input type="number" name="age" min="18" max="80" required />
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <select name="gender" required>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Region</label>
+          <select name="region" required>
+            <option>North</option>
+            <option>South</option>
+            <option>East</option>
+            <option>West</option>
+            <option>Central</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Monthly Charges</label>
+          <input type="number" name="monthly_charges" step="0.01" min="10" max="200" required />
+        </div>
+        <div class="form-group">
+          <label>Tenure Months</label>
+          <input type="number" name="tenure_months" min="1" max="60" required />
+        </div>
+        <div class="form-group">
+          <label>Support Tickets</label>
+          <input type="number" name="support_tickets" min="0" max="12" required />
+        </div>
+        <div class="form-group">
+          <label>Active Status</label>
+          <select name="is_active" required>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <button type="submit" class="button-primary">Add Customer</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}
